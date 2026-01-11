@@ -1,0 +1,43 @@
+import mongoose from "mongoose";
+
+const bidSchema = new mongoose.Schema(
+  {
+    gigId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Gig",
+      required: true,
+      index: true,
+    },
+
+    freelancerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+
+    message: {
+      type: String,
+      required: true,
+    },
+
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "hired", "rejected"],
+      default: "pending",
+      index: true,
+    },
+  },
+  { timestamps: true }
+);
+
+// Prevent same freelancer from bidding twice on same gig
+bidSchema.index({ gigId: 1, freelancerId: 1 }, { unique: true });
+
+export default mongoose.model("Bid", bidSchema);

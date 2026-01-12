@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api/axios";
+import { Link } from "react-router-dom";
 
 export default function GigFeed() {
   const [gigs, setGigs] = useState([]);
@@ -26,6 +27,14 @@ export default function GigFeed() {
 
   return (
     <div className="p-6">
+
+        <Link
+  to="/create"
+  className="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded"
+>
+  + Create Gig
+</Link>
+
       <h1 className="text-2xl font-bold mb-4">Open Gigs</h1>
 
       {gigs.length === 0 && (

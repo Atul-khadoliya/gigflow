@@ -3,6 +3,7 @@ import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import GigFeed from "./pages/GigFeed";
+import CreateGig from "./pages/CreateGig";
 
 function Home() {
   return <GigFeed />;
@@ -28,6 +29,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+         path="/create"
+         element={
+            <ProtectedRoute>
+            <CreateGig />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );

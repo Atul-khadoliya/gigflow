@@ -2,10 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import GigFeed from "./pages/GigFeed";
 
 function Home() {
-  return <div className="p-6 text-xl">Welcome to GigFlow</div>;
+  return <GigFeed />;
 }
+
 
 export default function App() {
   const { user } = useAuth();

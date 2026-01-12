@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import GigFeed from "./pages/GigFeed";
 import CreateGig from "./pages/CreateGig";
+import GigDetail from "./pages/GigDetail";
 
 function Home() {
   return <GigFeed />;
@@ -38,6 +39,16 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+        path="/gigs/:id"
+        element={
+           <ProtectedRoute>
+           <GigDetail />
+           </ProtectedRoute>
+          }
+        />
+
 
       </Routes>
     </BrowserRouter>

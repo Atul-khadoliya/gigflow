@@ -27,13 +27,12 @@ export default function GigFeed() {
 
   return (
     <div className="p-6">
-
-        <Link
-  to="/create"
-  className="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded"
->
-  + Create Gig
-</Link>
+      <Link
+        to="/create"
+        className="inline-block mb-4 bg-green-600 text-white px-4 py-2 rounded"
+      >
+        + Create Gig
+      </Link>
 
       <h1 className="text-2xl font-bold mb-4">Open Gigs</h1>
 
@@ -43,14 +42,15 @@ export default function GigFeed() {
 
       <div className="space-y-4">
         {gigs.map((gig) => (
-          <div
+          <Link
             key={gig._id}
-            className="border p-4 rounded shadow-sm"
+            to={`/gigs/${gig._id}`}
+            className="block border p-4 rounded shadow-sm hover:bg-gray-50"
           >
             <h2 className="text-lg font-semibold">{gig.title}</h2>
             <p className="text-gray-600">{gig.description}</p>
             <p className="font-medium mt-2">₹ {gig.budget}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

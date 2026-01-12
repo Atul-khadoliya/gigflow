@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Bid from "../models/Bid.js";
 import Gig from "../models/Gig.js";
+import { getIO, getUserSocketId } from "../socket.js";
+
 
 export const createBid = async (req, res) => {
   try {
@@ -63,6 +65,7 @@ export const getBidsForGig = async (req, res) => {
 
 
 
+
 export const hireBid = async (req, res) => {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -112,6 +115,23 @@ export const hireBid = async (req, res) => {
 
     await session.commitTransaction();
     session.endSession();
+
+    // Emit real-time notification to hired freelancer
+    try {
+    const io = getIO();
+    const freelancerSocketId = getUserSocketId(bid.freelancerId.toString());
+
+    if (freelancerSocketId) {
+    io.to(freelancerSocketId).emit("hired", {
+      gigId: gig._id,
+      message: "You have been hired for a gig!",
+    });
+    }
+    } catch (e) {
+    // Socket failure should not break hiring
+    console.error("Socket emit failed:", e.message);
+   }
+
 
     return res.status(200).json({
       message: "Bid hired successfully",

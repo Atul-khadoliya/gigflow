@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import api from "../api/axios";
+import socket from "../socket/socket";
 
 const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,10 +23,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    await api.post("/auth/logout");
     setUser(null);
   };
 
-  // 🔴 THIS IS THE IMPORTANT PART
+  // 🔹 Effect 1: restore auth from cookie
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -41,11 +43,36 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
+  // 🔹 Effect 2: socket lifecycle (WAIT for auth to finish)
+  useEffect(() => {
+    if (!loading && user?.id) {
+      socket.connect();
+      socket.emit("register", user.id);
+    }
+
+    if (!loading && !user) {
+      socket.disconnect();
+    }
+  }, [user, loading]);
+
+  // 🔹 Effect 3: listen for real-time hire notification
+  useEffect(() => {
+    socket.on("hired", (data) => {
+      alert(data.message || "You have been hired!");
+    });
+
+    return () => {
+      socket.off("hired");
+    };
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
+}

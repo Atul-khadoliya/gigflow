@@ -20,9 +20,11 @@ const server = http.createServer(app);
 // Attach Socket.io
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:5173",
+    credentials: true,
   },
 });
+
 
 
 initSocket(io);
@@ -36,6 +38,10 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     removeUserSocket(socket.id);
   });
+});
+
+io.on("connection", (socket) => {
+  console.log("Socket connected:", socket.id);
 });
 
 // Start server

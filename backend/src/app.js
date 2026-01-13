@@ -1,4 +1,6 @@
 import express from "express";
+import cors from "cors";
+
 import authRoutes from "./routes/auth.routes.js";
 import gigRoutes from "./routes/gig.routes.js";
 import bidRoutes from "./routes/bid.routes.js";
@@ -6,6 +8,15 @@ import bidRoutes from "./routes/bid.routes.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
+
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 app.use(cookieParser());

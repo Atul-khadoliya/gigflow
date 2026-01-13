@@ -43,3 +43,15 @@ export const getOpenGigs = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+
+export const getMyGigs = async (req, res) => {
+  try {
+    const gigs = await Gig.find({ ownerId: req.userId })
+      .sort({ createdAt: -1 });
+
+    res.json(gigs);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};

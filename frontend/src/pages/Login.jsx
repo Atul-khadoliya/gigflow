@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const { login, loading } = useAuth();
@@ -14,7 +15,7 @@ export default function Login() {
     try {
       await login(email, password);
       alert("Login successful");
-    } catch (err) {
+    } catch {
       setError("Invalid credentials");
     }
   };
@@ -56,6 +57,14 @@ export default function Login() {
         >
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        {/* ✅ Sign up link */}
+        <p className="text-sm mt-3 text-center">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-blue-600">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

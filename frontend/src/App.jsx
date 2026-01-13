@@ -29,6 +29,14 @@ function AppContent() {
     <>
       {user && (
         <div className="p-4 border-b flex justify-end gap-3">
+          {/* Open Gigs */}
+          <button
+            onClick={() => navigate("/")}
+            className="bg-gray-700 text-white px-4 py-1 rounded"
+          >
+            Open Gigs
+          </button>
+
           {/* My Gigs */}
           <button
             onClick={() => navigate("/my-gigs")}

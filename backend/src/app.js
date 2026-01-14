@@ -1,31 +1,36 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import authRoutes from "./routes/auth.routes.js";
 import gigRoutes from "./routes/gig.routes.js";
 import bidRoutes from "./routes/bid.routes.js";
 
-import cookieParser from "cookie-parser";
-
 const app = express();
 
+/**
+ * ✅ CORS — MUST be first
+ * Allows cookies + preflight from Vercel frontend
+ */
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+};
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ✅ IMPORTANT: preflight support
 
-
-
+/**
+ * Middlewares
+ */
 app.use(express.json());
 app.use(cookieParser());
 
+/**
+ * Routes
+ */
 app.use("/api/auth", authRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/bids", bidRoutes);
-
-
 
 export default app;

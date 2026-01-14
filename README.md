@@ -60,6 +60,7 @@ Follow the steps below to run the project locally.
   
   ```
 4. Update the environment variables in the .env file:
+
 ```bash
  MongoDB connection string
 

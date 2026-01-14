@@ -59,8 +59,9 @@ Follow the steps below to run the project locally.
    cp .env.example .env
   ```
 4. Update the environment variables in the .env file:
- MongoDB connection string
 ```bash
+ MongoDB connection string
+
 JWT secret
 
 Client URL

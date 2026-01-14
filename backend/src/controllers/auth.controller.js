@@ -15,7 +15,6 @@ export const register = async (req, res) => {
 
   const user = await User.create({ name, email, password });
 
-  // ✅ FIXED: payload key MUST be userId
   const token = jwt.sign(
     { userId: user._id },
     process.env.JWT_SECRET,
@@ -25,7 +24,7 @@ export const register = async (req, res) => {
   res.cookie("token", token, {
     httpOnly: true,
     sameSite: "lax",
-    secure: false, // true only in production (HTTPS)
+    secure: process.env.NODE_ENV === "production",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
@@ -70,7 +69,7 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",
-      secure: false, // true only in production
+      secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

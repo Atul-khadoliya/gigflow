@@ -9,16 +9,15 @@ import bidRoutes from "./routes/bid.routes.js";
 const app = express();
 
 /**
- * ✅ CORS — MUST be first
- * Allows cookies + preflight from Vercel frontend
+ * ✅ CORS — must be FIRST
+ * This alone handles OPTIONS preflight correctly
  */
-const corsOptions = {
-  origin: process.env.CLIENT_URL,
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // ✅ IMPORTANT: preflight support
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 
 /**
  * Middlewares

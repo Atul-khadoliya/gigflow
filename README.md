@@ -51,19 +51,20 @@ Follow the steps below to run the project locally.
    cd backend
    ```
 2. Install dependencies:
-   ``npm install
-   ``
+   ```bash
+   npm install
+   ```
 3. Create a .env file using the provided example:
    ```bash
    cp .env.example .env
   ```
 4. Update the environment variables in the .env file:
  MongoDB connection string
-
+```bash
 JWT secret
 
 Client URL
-
+```
 5. Start the backend server:
 ```bash
 npm run dev

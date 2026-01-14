@@ -10,6 +10,8 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await api.post("/auth/login", { email, password });
+
+    localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
 
@@ -19,21 +21,31 @@ export function AuthProvider({ children }) {
       email,
       password,
     });
+
+    localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
 
-  const logout = async () => {
-    await api.post("/auth/logout");
+  const logout = () => {
+    localStorage.removeItem("token");
     setUser(null);
   };
 
-  // 🔹 Effect 1: restore auth from cookie
+  // 🔹 Effect 1: restore auth using Bearer token
   useEffect(() => {
     const loadUser = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const res = await api.get("/auth/me");
         setUser(res.data);
       } catch {
+        localStorage.removeItem("token");
         setUser(null);
       } finally {
         setLoading(false);
@@ -43,7 +55,7 @@ export function AuthProvider({ children }) {
     loadUser();
   }, []);
 
-  // 🔹 Effect 2: socket lifecycle (WAIT for auth to finish)
+  // 🔹 Effect 2: socket lifecycle
   useEffect(() => {
     if (!loading && user?.id) {
       socket.connect();
@@ -55,7 +67,7 @@ export function AuthProvider({ children }) {
     }
   }, [user, loading]);
 
-  // 🔹 Effect 3: listen for real-time hire notification
+  // 🔹 Effect 3: real-time hire notification
   useEffect(() => {
     socket.on("hired", (data) => {
       alert(data.message || "You have been hired!");

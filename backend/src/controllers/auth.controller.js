@@ -21,14 +21,16 @@ export const register = async (req, res) => {
     { expiresIn: "7d" }
   );
 
+  // Keep cookie (harmless locally)
   res.cookie("token", token, {
-  httpOnly: true,
-  sameSite: "none",
-  secure: true,
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 
   return res.status(201).json({
+    token, // ✅ ADDED
     user: {
       id: user._id,
       name: user.name,
@@ -66,15 +68,16 @@ export const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
+    // Keep cookie
     res.cookie("token", token, {
-  httpOnly: true,
-  sameSite: "none",
-  secure: true,
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({
-      message: "Login successful",
+      token, // ✅ ADDED
       user: {
         id: user._id,
         name: user.name,

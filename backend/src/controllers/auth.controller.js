@@ -86,8 +86,7 @@ export const login = async (req, res) => {
   }
 };
 
-/* ME
- */
+
 export const me = async (req, res) => {
   try {
     const user = await User.findById(req.userId);

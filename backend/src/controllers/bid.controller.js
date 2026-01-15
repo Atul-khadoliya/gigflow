@@ -95,15 +95,15 @@ export const hireBid = async (req, res) => {
       return res.status(400).json({ message: "Gig already assigned" });
     }
 
-    // 1. Mark gig as assigned
+    // Mark gig as assigned
     gig.status = "assigned";
     await gig.save({ session });
 
-    // 2. Mark selected bid as hired
+    //  Mark selected bid as hired
     bid.status = "hired";
     await bid.save({ session });
 
-    // 3. Reject all other bids
+    //  Reject all other bids
     await Bid.updateMany(
       {
         gigId: gig._id,
@@ -116,7 +116,7 @@ export const hireBid = async (req, res) => {
     await session.commitTransaction();
     session.endSession();
 
-    // Emit real-time notification to hired freelancer
+    // real-time notification to hired freelancer
     try {
     const io = getIO();
     const freelancerSocketId = getUserSocketId(bid.freelancerId.toString());
@@ -128,7 +128,7 @@ export const hireBid = async (req, res) => {
     });
     }
     } catch (e) {
-    // Socket failure should not break hiring
+    
     console.error("Socket emit failed:", e.message);
    }
 

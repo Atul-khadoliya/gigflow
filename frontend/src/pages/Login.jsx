@@ -58,7 +58,7 @@ export default function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        {/* ✅ Sign up link */}
+        {/*  Sign up */}
         <p className="text-sm mt-3 text-center">
           Don’t have an account?{" "}
           <Link to="/register" className="text-blue-600">

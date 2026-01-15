@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  // 🔹 Effect 1: restore auth using Bearer token
+  // restore auth using Bearer token
   useEffect(() => {
     const loadUser = async () => {
       const token = localStorage.getItem("token");
@@ -55,7 +55,7 @@ export function AuthProvider({ children }) {
     loadUser();
   }, []);
 
-  // 🔹 Effect 2: socket lifecycle
+  // socket lifecycle
   useEffect(() => {
     if (!loading && user?.id) {
       socket.connect();
@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
     }
   }, [user, loading]);
 
-  // 🔹 Effect 3: real-time hire notification
+  // real-time hire notification
   useEffect(() => {
     socket.on("hired", (data) => {
       alert(data.message || "You have been hired!");

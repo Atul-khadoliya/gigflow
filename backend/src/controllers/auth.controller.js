@@ -2,9 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
-/**
- * REGISTER (auto-login)
- */
+/* REGISTER */
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -21,7 +19,7 @@ export const register = async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  // Keep cookie (harmless locally)
+  
   res.cookie("token", token, {
     httpOnly: true,
     sameSite: "none",
@@ -30,7 +28,7 @@ export const register = async (req, res) => {
   });
 
   return res.status(201).json({
-    token, // ✅ ADDED
+    token, 
     user: {
       id: user._id,
       name: user.name,
@@ -39,9 +37,7 @@ export const register = async (req, res) => {
   });
 };
 
-/**
- * LOGIN
- */
+/*LOGIN*/
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -68,7 +64,7 @@ export const login = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    // Keep cookie
+
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
@@ -77,7 +73,7 @@ export const login = async (req, res) => {
     });
 
     return res.status(200).json({
-      token, // ✅ ADDED
+      token, 
       user: {
         id: user._id,
         name: user.name,
@@ -90,8 +86,7 @@ export const login = async (req, res) => {
   }
 };
 
-/**
- * ME
+/* ME
  */
 export const me = async (req, res) => {
   try {
@@ -110,8 +105,7 @@ export const me = async (req, res) => {
   }
 };
 
-/**
- * LOGOUT
+/* LOGOUT
  */
 export const logout = (req, res) => {
   res.clearCookie("token", {

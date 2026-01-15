@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 
 export default function BidList() {
-  const { id } = useParams(); // gigId
+  const { id } = useParams(); 
   const navigate = useNavigate();
   const [bids, setBids] = useState([]);
   const [loading, setLoading] = useState(true);

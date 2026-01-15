@@ -4,13 +4,13 @@ const authMiddleware = (req, res, next) => {
   try {
     let token = null;
 
-    // 1️⃣ Bearer token (production)
+    
     const authHeader = req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];
     }
 
-    // 2️⃣ Fallback to HttpOnly cookie (local/dev)
+    
     if (!token && req.cookies?.token) {
       token = req.cookies.token;
     }

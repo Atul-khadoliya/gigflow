@@ -8,10 +8,7 @@ import bidRoutes from "./routes/bid.routes.js";
 
 const app = express();
 
-/**
- * ✅ CORS — must be FIRST
- * This alone handles OPTIONS preflight correctly
- */
+
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
@@ -19,15 +16,12 @@ app.use(
   })
 );
 
-/**
- * Middlewares
- */
+//Middlewares
+
 app.use(express.json());
 app.use(cookieParser());
 
-/**
- * Routes
- */
+// Routes
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "OK" });
 });
